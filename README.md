@@ -16,4 +16,4 @@ npm run preview
 
 ## Hinweis
 
-Impressum, Datenschutz und Nutzung enthalten Platzhalter in eckigen Klammern. Vor dem Onlinegang eigene Angaben einsetzen und rechtlich prüfen lassen.
+Impressum, Datenschutz und Nutzung nennen NEON Software Solutions GmbH. Vor dem Onlinegang rechtlich prüfen lassen.

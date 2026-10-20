@@ -69,11 +69,11 @@ export function HomePage() {
       </div>
       <section className={styles.hero}>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>E-RECHNUNG · PRIVAT IM BROWSER</p>
+          <p className={styles.eyebrow}>E-RECHNUNG · PRIVATSPHÄRE BY DESIGN</p>
           <h1 className={styles.headline}>Die Rechnung bleibt bei dir.</h1>
           <p className={styles.sub}>
-            Erstellen, lesen, bearbeiten und prüfen. XRechnung und ZUGFeRD entstehen auf deinem
-            Gerät. Ein Server von uns sieht sie nicht.
+            Erstellen, lesen, bearbeiten und prüfen. XRechnung und ZUGFeRD entstehen lokal auf
+            deinem Gerät – ohne Konto und ohne zentrale Speicherung.
           </p>
           <div className={styles.actions}>
             <Link to="/erstellen" className={styles.primary}>
@@ -97,7 +97,7 @@ export function HomePage() {
           <InvoicePreview draft={sample} badge="Gültig" />
           <div className={styles.localChip}>
             <span className={styles.localIcon}>✓</span>
-            Nur in deinem Browser
+            Privatsphäre by Design
           </div>
         </div>
       </section>
@@ -183,7 +183,7 @@ export function HomePage() {
         </div>
         <p className={styles.privacy}>
           <span className={styles.dot} />
-          Dein Browser schreibt die Rechnung. Ein Server von uns sieht sie nicht.
+          Privatsphäre by Design: die Rechnung entsteht lokal, du behältst die Kontrolle.
         </p>
       </section>
     </main>
