@@ -1,0 +1,240 @@
+.page {
+  max-width: 1100px;
+  padding: 48px 80px 80px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.breadcrumb a {
+  color: var(--color-primary);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 12px;
+}
+
+.page > h1 {
+  max-width: 760px;
+  font-size: clamp(34px, 4vw, 44px);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.12;
+  margin-bottom: 16px;
+}
+
+.lead {
+  max-width: 720px;
+  color: var(--color-muted);
+  font-size: 17px;
+  line-height: 26px;
+  margin-bottom: 28px;
+}
+
+.answerBox {
+  max-width: 760px;
+  margin-bottom: 36px;
+  padding: 24px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: #f7f9f7;
+}
+
+.answerLabel {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.answerBox h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.answerBox p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.contentLayout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.toc span {
+  margin-bottom: 4px;
+  color: var(--color-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.toc a {
+  color: var(--color-foreground);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.toc a:hover {
+  color: var(--color-primary);
+}
+
+.article {
+  min-width: 0;
+}
+
+.article p,
+.article li {
+  font-size: 16px;
+  line-height: 26px;
+  margin-bottom: 14px;
+}
+
+.article ul {
+  padding-left: 20px;
+  margin: 0 0 20px;
+}
+
+.article h2 {
+  font-size: 24px;
+  margin: 36px 0 12px;
+  letter-spacing: var(--tracking-tight);
+}
+
+.article section:first-child h2 {
+  margin-top: 0;
+}
+
+.faq details {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.faq details p {
+  margin: 10px 0 0;
+  color: var(--color-muted);
+}
+
+.related {
+  margin-top: 12px;
+}
+
+.relatedList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.relatedList a {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cta {
+  display: inline-flex;
+  margin-top: 28px;
+  height: 44px;
+  align-items: center;
+  padding: 0 18px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 500;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  max-width: 720px;
+}
+
+.list a {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: inherit;
+}
+
+.list a:hover {
+  border-color: var(--color-primary);
+}
+
+.list strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.list span {
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+@media (max-width: 900px) {
+  .contentLayout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .toc {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .toc span {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 40px 20px 64px;
+  }
+
+  .toc {
+    grid-template-columns: 1fr;
+  }
+}

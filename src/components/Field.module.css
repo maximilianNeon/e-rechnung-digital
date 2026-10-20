@@ -1,0 +1,109 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  line-height: 16px;
+  color: var(--color-foreground);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.optional {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-muted);
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+}
+
+.control:focus-within {
+  border-color: var(--color-primary);
+}
+
+.control input,
+.control select,
+.control textarea {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  line-height: 18px;
+  padding: 12px 0;
+}
+
+.control:has(textarea) {
+  align-items: stretch;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.control textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 22px;
+  padding: 4px 0;
+}
+
+.invalid {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.error {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-danger);
+}
+
+.hint {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--color-muted);
+}
+
+.check {
+  flex-shrink: 0;
+}
+
+.suffix {
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--color-muted);
+  padding-left: 4px;
+}

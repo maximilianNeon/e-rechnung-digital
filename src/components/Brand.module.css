@@ -1,0 +1,30 @@
+.link {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: baseline;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+}
+
+.md {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.sm {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.dark {
+  color: var(--color-foreground);
+}
+
+.accent {
+  color: var(--color-primary);
+}

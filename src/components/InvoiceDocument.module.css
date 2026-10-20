@@ -1,0 +1,187 @@
+.doc {
+  width: 100%;
+  max-width: 190mm;
+  margin: 0 auto;
+  color: #14241c;
+  background: #fff;
+  font-size: 10.5pt;
+  line-height: 1.45;
+}
+
+.bar {
+  height: 6px;
+  margin-bottom: 28px;
+}
+
+.head,
+.parties,
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.head {
+  align-items: flex-start;
+  margin-bottom: 36px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.sellerName,
+.number {
+  font-weight: 600;
+}
+
+.number {
+  font-size: 20pt;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.headRight {
+  text-align: right;
+}
+
+.kicker {
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.muted,
+.metaLabel,
+.article,
+.detail {
+  color: #4a5c54;
+}
+
+.detail {
+  margin-top: 4px;
+  font-size: 9pt;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.parties {
+  margin-bottom: 32px;
+  line-height: 1.55;
+}
+
+.parties > div {
+  width: 46%;
+}
+
+.label,
+.metaLabel {
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.meta {
+  padding: 16px 0 18px;
+  border-top: 1px solid #e2e8e4;
+  border-bottom: 1px solid #14241c;
+  margin-bottom: 18px;
+}
+
+.meta > div {
+  flex: 1;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.table th {
+  padding: 0 12px 10px 0;
+  font-size: 8pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4a5c54;
+  font-weight: 600;
+  text-align: left;
+}
+
+.table td {
+  padding: 14px 12px 14px 0;
+  border-bottom: 1px solid #e2e8e4;
+  vertical-align: top;
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-right: 0;
+}
+
+.num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table th.num {
+  text-align: right;
+}
+
+.totals {
+  width: 260px;
+  margin-left: auto;
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.totals > div,
+.gross {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.totals > div span:first-child {
+  color: #4a5c54;
+}
+
+.gross {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #14241c;
+  font-weight: 600;
+}
+
+.gross span {
+  color: #14241c;
+}
+
+.note {
+  margin-top: 12px;
+  color: #4a5c54;
+  font-size: 9pt;
+}
+
+.payment {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid #e2e8e4;
+  line-height: 1.6;
+  break-inside: avoid;
+}
+
+.table tr,
+.totals,
+.head,
+.parties {
+  break-inside: avoid;
+}

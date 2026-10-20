@@ -1,0 +1,232 @@
+.sheet {
+  width: min(100%, 560px);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px #14241c14;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.brandBar {
+  height: 4px;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 28px 32px 0;
+}
+
+.sellerMark {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.logoFallback {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.sellerName {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.muted {
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.rightTop {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: #e7ece9;
+  color: var(--color-muted);
+}
+
+.badge[data-kind="ok"] {
+  background: var(--color-success-soft);
+  color: var(--color-primary);
+}
+
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 99px;
+  background: currentColor;
+}
+
+.docLabel {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.docNumber {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.parties {
+  display: flex;
+  gap: 32px;
+  padding: 28px 32px 0;
+}
+
+.parties > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.partyLabel {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.partyName {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.meta {
+  display: flex;
+  gap: 24px;
+  padding: 24px 32px 0;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.meta > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.metaLabel {
+  font-size: 12px;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.lines {
+  padding: 28px 32px 0;
+}
+
+.lineHead {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-foreground);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.lineRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.lineCopy {
+  min-width: 0;
+  flex: 1;
+}
+
+.lineTitle {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.lineDetail {
+  color: var(--color-muted);
+  font-size: 13px;
+  line-height: 18px;
+  white-space: pre-wrap;
+  margin-top: 2px;
+}
+
+.amount {
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.totals {
+  padding: 18px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  width: 220px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-muted);
+}
+
+.totalRow span:last-child {
+  color: var(--color-foreground);
+}
+
+.grand {
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-foreground);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
