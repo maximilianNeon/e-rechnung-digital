@@ -61,9 +61,9 @@ const guideRoutes: SeoRoute[] = guides
 export const seoRoutes: SeoRoute[] = [
   {
     path: "/",
-    title: "E-Rechnung erstellen, öffnen und prüfen",
+    title: "E-RechnungDigital: XRechnung & ZUGFeRD kostenlos im Browser",
     description:
-      "E-Rechnungen als XRechnung oder ZUGFeRD im Browser erstellen, öffnen und prüfen. Ohne Konto und ohne Upload deiner Rechnungsdaten.",
+      "E-Rechnung kostenlos erstellen, öffnen und prüfen – als XRechnung oder ZUGFeRD. Lokal im Browser verarbeitet, Privatsphäre by Design, ohne Konto.",
     type: "website",
     lastmod: DEFAULT_LASTMOD,
     inSitemap: true,
@@ -92,7 +92,7 @@ export const seoRoutes: SeoRoute[] = [
     path: "/oeffnen",
     title: "E-Rechnung öffnen: XRechnung und ZUGFeRD im Browser lesen",
     description:
-      "XML- oder ZUGFeRD-Rechnung lokal öffnen, Felder prüfen und weiterbearbeiten. Ohne Upload auf einen Server.",
+      "XML- oder ZUGFeRD-Rechnung lokal im Browser öffnen, Felder prüfen und weiterbearbeiten. Privatsphäre by Design, ohne Konto.",
     type: "website",
     lastmod: DEFAULT_LASTMOD,
     inSitemap: true,

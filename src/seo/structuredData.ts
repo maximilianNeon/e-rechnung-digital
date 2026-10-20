@@ -1,12 +1,35 @@
 import { absoluteUrl, SITE_NAME, SITE_ORIGIN } from "./site";
 
+const ORGANIZATION_ID = `${SITE_ORIGIN}/#organization`;
+const WEBSITE_ID = `${SITE_ORIGIN}/#website`;
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: SITE_NAME,
-    url: SITE_ORIGIN,
-    logo: absoluteUrl("/favicon.svg"),
+    alternateName: "E-Rechnung Digital",
+    url: `${SITE_ORIGIN}/`,
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/icon-512.png"),
+      width: 512,
+      height: 512,
+    },
+    image: absoluteUrl("/og-image.png"),
+    email: "info@erechnungdigital.com",
+    parentOrganization: {
+      "@type": "Organization",
+      name: "NEON Software Solutions GmbH",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Brunnenstraße 195",
+        postalCode: "10119",
+        addressLocality: "Berlin",
+        addressCountry: "DE",
+      },
+    },
   };
 }
 
@@ -14,28 +37,41 @@ export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: SITE_NAME,
-    url: SITE_ORIGIN,
+    alternateName: "E-Rechnung Digital",
+    url: `${SITE_ORIGIN}/`,
     inLanguage: "de-DE",
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    publisher: { "@id": ORGANIZATION_ID },
   };
 }
 
 export function softwareApplicationJsonLd() {
   return {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     name: SITE_NAME,
+    url: `${SITE_ORIGIN}/`,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
+    browserRequirements: "Requires JavaScript",
+    inLanguage: "de-DE",
+    image: absoluteUrl("/og-image.png"),
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "EUR",
     },
-    url: SITE_ORIGIN,
+    featureList: [
+      "XRechnung 3.0.2 als XML erstellen",
+      "ZUGFeRD 2.5.2 als PDF mit eingebettetem XML",
+      "E-Rechnungen öffnen und weiterbearbeiten",
+      "Pflichtfelder, IBAN und USt-IdNr. direkt prüfen",
+      "Lokale Verarbeitung im Browser, ohne Konto",
+    ],
+    publisher: { "@id": ORGANIZATION_ID },
     description:
-      "E-Rechnungen als XRechnung oder ZUGFeRD im Browser erstellen, öffnen und prüfen. Ohne Konto und ohne Upload.",
+      "E-Rechnungen als XRechnung oder ZUGFeRD im Browser erstellen, öffnen und prüfen. Privatsphäre by Design: lokal verarbeitet, ohne Konto.",
   };
 }
 
@@ -68,8 +104,13 @@ export function articleJsonLd(input: {
     dateModified: input.dateModified,
     inLanguage: "de-DE",
     mainEntityOfPage: absoluteUrl(input.path),
-    author: { "@type": "Organization", name: SITE_NAME },
-    publisher: { "@type": "Organization", name: SITE_NAME },
+    image: absoluteUrl("/og-image.png"),
+    author: { "@type": "Organization", name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/icon-512.png") },
+    },
   };
 }
 

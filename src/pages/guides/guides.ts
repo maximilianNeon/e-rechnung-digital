@@ -32,7 +32,7 @@ export const guides: Guide[] = [
     keyword: "E-Rechnung erstellen kostenlos",
     updated: "2026-10-20",
     summary:
-      "Eine gültige E-Rechnung braucht strukturierte Daten, nicht nur eine PDF. Im Browser füllst du Absender, Empfänger, Positionen und Zahlung aus, prüfst die Pflichtfelder und nimmst XRechnung oder ZUGFeRD mit – ohne Konto und ohne Upload.",
+      "Eine gültige E-Rechnung braucht strukturierte Daten, nicht nur eine PDF. Im Browser füllst du Absender, Empfänger, Positionen und Zahlung aus, prüfst die Pflichtfelder und nimmst XRechnung oder ZUGFeRD mit – lokal verarbeitet und ohne Konto.",
     sections: [
       {
         id: "was-du-brauchst",
@@ -240,7 +240,7 @@ export const guides: Guide[] = [
     keyword: "XRechnung öffnen",
     updated: "2026-10-20",
     summary:
-      "Eine vorhandene XML- oder ZUGFeRD-Datei kannst du lokal öffnen, prüfen und in dasselbe Formular übernehmen – ohne die Datei auf einen Server zu laden.",
+      "Eine vorhandene XML- oder ZUGFeRD-Datei kannst du lokal öffnen, prüfen und in dasselbe Formular übernehmen – die Datei wird nur lokal im Browser gelesen.",
     sections: [
       {
         id: "ablauf",
@@ -276,7 +276,7 @@ export const guides: Guide[] = [
       {
         question: "Wird die Datei hochgeladen?",
         answer:
-          "Nein. Das Öffnen passiert im Browser. Ein Server von E-RechnungDigital sieht den Beleg nicht.",
+          "Nein. Das Öffnen passiert lokal im Browser. Der Beleg wird nicht an E-RechnungDigital übertragen.",
       },
     ],
     sources: [
