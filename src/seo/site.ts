@@ -1,4 +1,4 @@
-export const SITE_ORIGIN = "https://erechnung.digital";
+export const SITE_ORIGIN = "https://erechnungdigital.com";
 export const SITE_NAME = "E-RechnungDigital";
 export const OG_IMAGE_PATH = "/og-image.png";
 export const DEFAULT_LASTMOD = "2026-10-20";

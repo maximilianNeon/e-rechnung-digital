@@ -1,6 +1,6 @@
 # E-RechnungDigital
 
-Statische Website und Browser-Werkzeug für XRechnung und ZUGFeRD. Rechnungsdaten bleiben im Browser. Download ist der einzige Ausgang.
+Statische Website und Browser-Werkzeug für XRechnung und ZUGFeRD unter https://erechnungdigital.com. Rechnungsdaten bleiben im Browser. Download ist der einzige Ausgang.
 
 ## Entwicklung
 

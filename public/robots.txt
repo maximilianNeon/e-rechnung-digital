@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://erechnung.digital/sitemap.xml
+Sitemap: https://erechnungdigital.com/sitemap.xml
