@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && tsx scripts/prerender.tsx",
     "lint": "oxlint",
     "preview": "vite preview",
-    "test": "tsx src/lib/validation.test.ts"
+    "test": "tsx src/lib/validation.test.ts && tsx tests/invoices.test.ts"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -23,6 +23,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "happy-dom": "^21.0.4",
     "oxlint": "^1.88.0",
     "tsx": "^4.23.15",
     "typescript": "~6.0.3",

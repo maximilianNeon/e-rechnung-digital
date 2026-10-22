@@ -1,0 +1,10 @@
+Sample invoices for the parser tests. Redistributed under the Apache License 2.0.
+
+XRechnung (xrechnung-*.xml)
+  Koordinierungsstelle für IT-Standards (KoSIT)
+  https://github.com/itplr-kosit/xrechnung-testsuite
+
+Factur-X and ZUGFeRD (facturx-*)
+  Mustangproject
+  https://github.com/ZUGFeRD/mustangproject
+  The extended XML keeps the FeRD usage notice that ships with the ZUGFeRD 2.3 example.
