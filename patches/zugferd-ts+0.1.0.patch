@@ -1,0 +1,26 @@
+diff --git a/node_modules/zugferd-ts/dist/index.cjs b/node_modules/zugferd-ts/dist/index.cjs
+index 3935098..a7dde6a 100644
+--- a/node_modules/zugferd-ts/dist/index.cjs
++++ b/node_modules/zugferd-ts/dist/index.cjs
+@@ -757,7 +757,7 @@ function generateCiiXml(invoice) {
+ 	const root = createCiiDocument();
+ 	buildExchangedDocumentContext(root, invoice.businessProcessId);
+ 	buildExchangedDocument(root, invoice);
+-	const transaction = root.ele(NS.RAM, "ram:SupplyChainTradeTransaction");
++	const transaction = root.ele(NS.RSM, "rsm:SupplyChainTradeTransaction");
+ 	buildLineItems(transaction, invoice.lines, calcResult.lineResults);
+ 	buildHeaderTradeAgreement(transaction, invoice);
+ 	buildHeaderTradeDelivery(transaction, invoice);
+diff --git a/node_modules/zugferd-ts/dist/index.js b/node_modules/zugferd-ts/dist/index.js
+index 81fb437..0055c96 100644
+--- a/node_modules/zugferd-ts/dist/index.js
++++ b/node_modules/zugferd-ts/dist/index.js
+@@ -732,7 +732,7 @@ function generateCiiXml(invoice) {
+ 	const root = createCiiDocument();
+ 	buildExchangedDocumentContext(root, invoice.businessProcessId);
+ 	buildExchangedDocument(root, invoice);
+-	const transaction = root.ele(NS.RAM, "ram:SupplyChainTradeTransaction");
++	const transaction = root.ele(NS.RSM, "rsm:SupplyChainTradeTransaction");
+ 	buildLineItems(transaction, invoice.lines, calcResult.lineResults);
+ 	buildHeaderTradeAgreement(transaction, invoice);
+ 	buildHeaderTradeDelivery(transaction, invoice);

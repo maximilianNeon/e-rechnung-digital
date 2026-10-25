@@ -167,6 +167,15 @@ export function parseCiiXml(xml: string): ParseResult {
   const accountName = first(doc, "AccountName");
   draft.accountHolder = textContent(accountName);
 
+  // The exemption reason usually sits only in the header tax breakdown.
+  const headerReasons = new Map<string, string>();
+  const settlement = first(doc, "ApplicableHeaderTradeSettlement");
+  for (const tax of settlement ? all(settlement, "ApplicableTradeTax") : []) {
+    if (tax.parentElement !== settlement) continue;
+    const reason = textContent(first(tax, "ExemptionReason"));
+    if (reason) headerReasons.set(textContent(first(tax, "CategoryCode")), reason);
+  }
+
   const lineNodes = all(doc, "IncludedSupplyChainTradeLineItem");
   if (lineNodes.length > 0) {
     draft.lines = lineNodes.map((node) => {
@@ -179,7 +188,8 @@ export function parseCiiXml(xml: string): ParseResult {
         : textContent(first(node, "ChargeAmount"));
       const category = textContent(first(node, "CategoryCode")) || "S";
       const rate = Number(textContent(first(node, "RateApplicablePercent")) || "19");
-      const reason = textContent(first(node, "ExemptionReason"));
+      const reason =
+        textContent(first(node, "ExemptionReason")) || (headerReasons.get(category) ?? "");
       const priceNum = Number(price.replace(",", ".")) || 0;
       return {
         id: crypto.randomUUID(),

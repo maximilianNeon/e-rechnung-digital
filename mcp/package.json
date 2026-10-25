@@ -1,6 +1,6 @@
 {
   "name": "erechnung-digital-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP-Server für E-Rechnungen: XRechnung-taugliches CII-XML und ZUGFeRD-PDF in Claude, ChatGPT, Cursor & Co. erstellen, lesen und prüfen – lokal, ohne Upload.",
   "type": "module",
   "license": "MIT",
@@ -39,8 +39,8 @@
     "@modelcontextprotocol/sdk": "^1.32.2",
     "happy-dom": "^21.0.4",
     "pdf-lib": "^1.17.1",
-    "zod": "^4.6.7",
-    "zugferd-ts": "^0.1.0"
+    "xmlbuilder2": "^4.0.3",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "esbuild": "^0.28.2"

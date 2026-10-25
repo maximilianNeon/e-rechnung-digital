@@ -197,7 +197,7 @@ export const rules: ValidationRuleInfo[] = [
     meaning:
       "Damit der Käufer den Lieferanten automatisch zuordnen kann, braucht die Rechnung eine Verkäuferkennung, eine Registernummer oder die USt-IdNr.",
     cause: "Keine dieser drei Angaben ist vorhanden.",
-    fix: "Am einfachsten die USt-IdNr. eintragen. Ohne USt-IdNr. eine Handelsregisternummer oder eine Lieferantennummer beim Kunden angeben.",
+    fix: "Am einfachsten die USt-IdNr. eintragen. Ohne USt-IdNr. eine Verkäuferkennung angeben, etwa die Steuernummer oder die Lieferantennummer beim Kunden. E-RechnungDigital setzt die Steuernummer dann automatisch als Kennung.",
     related: ["BR-DE-16"],
   },
   {
@@ -218,9 +218,9 @@ export const rules: ValidationRuleInfo[] = [
     severity: "Fehler",
     terms: ["BT-120", "BT-121"],
     meaning:
-      "Kategorie O (nicht steuerbar) braucht einen Befreiungsgrund. Kleinunternehmer nach § 19 UStG nutzen diese Kategorie häufig.",
+      "Kategorie O (nicht steuerbar) braucht einen Befreiungsgrund. Für Kleinunternehmer nach § 19 UStG ist in der XRechnung Kategorie E mit 0 % passender, weil O weder Steuernummer noch Steuersatz erlaubt.",
     cause: "Kategorie O ist gesetzt, aber kein Text oder Code für den Grund.",
-    fix: "Als Grund zum Beispiel „Kein Umsatzsteuerausweis gemäß § 19 UStG“ angeben.",
+    fix: "Den Grund als Text angeben. Als Kleinunternehmer besser Kategorie E mit 0 % und dem Hinweis „Kein Umsatzsteuerausweis gemäß § 19 UStG“ verwenden.",
     related: ["BR-E-10"],
   },
   {

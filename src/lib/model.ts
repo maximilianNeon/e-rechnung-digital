@@ -160,10 +160,11 @@ export function taxCategoryForCase(taxCase: TaxCase): string {
     case "standard19":
     case "standard7":
       return "S";
+    // XRechnung needs a rate (BR-DE-14) and category O forbids the tax number (BR-O-02),
+    // so small businesses under § 19 UStG use E with 0 %.
     case "exempt":
-      return "E";
     case "kleinunternehmer":
-      return "O";
+      return "E";
     case "reverseCharge":
       return "AE";
   }

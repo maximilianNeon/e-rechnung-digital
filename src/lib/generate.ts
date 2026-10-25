@@ -90,6 +90,8 @@ export function toZugferdInvoice(draft: InvoiceDraft): ZugferdInvoice {
     deliveryDate: toCiiDate(draft.deliveryDate),
     seller: {
       name: draft.seller.name.trim(),
+      // Without a VAT id the seller needs another identifier (BR-CO-26).
+      id: draft.seller.vatId.trim() ? undefined : draft.seller.taxNumber.trim() || undefined,
       address: {
         lineOne: draft.seller.address.street.trim(),
         postalCode: draft.seller.address.postalCode.trim(),

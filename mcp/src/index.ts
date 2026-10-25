@@ -25,7 +25,7 @@ import {
 // parse.ts reads CII with the browser DOMParser.
 globalThis.DOMParser ??= new GlobalWindow().DOMParser as unknown as typeof DOMParser;
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.1";
 const SITE = absoluteUrl("/");
 
 function text(value: string, isError = false) {
