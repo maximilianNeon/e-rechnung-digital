@@ -89,7 +89,8 @@
           ]
         },
         "commerce": false,
-        "commerce_description": "Keine Zahlungen oder Verkäufe. Das Plugin erzeugt nur Rechnungsdokumente."
+        "commerce_description": "Keine Zahlungen oder Verkäufe. Das Plugin erzeugt nur Rechnungsdokumente.",
+        "demo_recording_url": "https://www.erechnungdigital.com/demo/erechnung-digital-demo.mp4"
       },
       "publication": {
         "countries": [
