@@ -1,0 +1,104 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "erechnung-digital",
+  "version": "0.2.0",
+  "description": "Deutsche E-Rechnungen im Chat erstellen, prüfen und Fehlercodes verstehen: XRechnung 3.0 und ZUGFeRD nach EN 16931.",
+  "author": {
+    "name": "NEON Software Solutions GmbH",
+    "email": "info@erechnungdigital.com",
+    "url": "https://www.erechnungdigital.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "e-rechnung",
+    "xrechnung",
+    "zugferd",
+    "rechnung",
+    "invoice",
+    "en16931"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "E-RechnungDigital",
+        "shortDescription": "E-Rechnungen im Chat",
+        "longDescription": "E-RechnungDigital erstellt deutsche E-Rechnungen direkt im Gespräch. Du sagst, wem du was berechnen willst – ChatGPT fragt fehlende Angaben nach, prüft alle Pflichtfelder nach EN 16931 und XRechnung 3.0 und gibt dir einen Link, über den du die Rechnung als ZUGFeRD-PDF (für Kunden) und XRechnung-XML (für Behördenportale und Buchhaltungssoftware) herunterlädst.\n\nAb 2027 müssen Unternehmen in Deutschland E-Rechnungen an andere Unternehmen ausstellen, ab 2028 alle. Unterstützt werden 19 % und 7 % Umsatzsteuer, Kleinunternehmer nach § 19 UStG, Reverse Charge nach § 13b UStG, steuerfreie Leistungen und Gutschriften. Die erzeugten Dateien bestehen den offiziellen KoSIT-Validator. Vorhandene E-Rechnungen lassen sich prüfen, Fehlercodes wie BR-DE-15 werden in einfachem Deutsch erklärt.\n\nDatenschutz: Der Server speichert nichts. Er prüft die Angaben im Arbeitsspeicher (Rechenzentrum Frankfurt) und gibt einen Link zurück, der die Rechnung im Teil hinter „#“ trägt. Dieser Teil wird nie an einen Server gesendet; PDF und XML entstehen im Browser.",
+        "developerName": "NEON Software Solutions GmbH",
+        "category": "Productivity",
+        "websiteURL": "https://www.erechnungdigital.com",
+        "supportURL": "https://www.erechnungdigital.com/impressum",
+        "privacyPolicyURL": "https://www.erechnungdigital.com/datenschutz",
+        "termsOfServiceURL": "https://www.erechnungdigital.com/nutzung",
+        "defaultPrompt": [
+          "Schreib eine E-Rechnung an meinen Kunden",
+          "Was bedeutet der Fehler BR-DE-15?",
+          "Erstelle eine Rechnung als Kleinunternehmer"
+        ],
+        "brandColor": "#1B6B45",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/logo.png"
+      },
+      "onboardingSkill": "./skills/get-started/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Rechnung mit 19 % USt erstellen",
+              "prompt": "Absender: Test Studio Nord UG, Teststraße 1, 10115 Berlin, USt-IdNr. DE123456789, rechnung@teststudio.example, Tel. 030 1234567, Ansprechpartner Buchhaltung, IBAN DE89370400440532013000. Schreib eine Rechnung Nr. 2026-001 an Bäckerei Krume GmbH, Oderberger Str. 3, 10435 Berlin, buchhaltung@krume.example: 12 Stunden Webdesign à 75 €, Referenz Website-Relaunch.",
+              "tools_triggered": "create_invoice",
+              "expected_behavior": "Meldet Netto 900,00 €, USt 171,00 €, Brutto 1.071,00 € und gibt einen Link auf https://www.erechnungdigital.com/rechnung#… zurück, über den PDF und XML geladen werden."
+            },
+            {
+              "description": "Rechnung an eine Behörde mit Leitweg-ID",
+              "prompt": "Absender: Test Studio Nord UG, Teststraße 1, 10115 Berlin, USt-IdNr. DE123456789, rechnung@teststudio.example, Tel. 030 1234567, Ansprechpartner Buchhaltung, IBAN DE89370400440532013000. Rechnung 2026-002 an Stadt Musterstadt, Rathausplatz 1, 12345 Musterstadt, rechnung@musterstadt.example, Leitweg-ID 04011000-12345-03: Beratung pauschal 1.200 €.",
+              "tools_triggered": "create_invoice",
+              "expected_behavior": "Nutzt die Leitweg-ID als Käuferreferenz, Brutto 1.428,00 €, gibt den Download-Link zurück."
+            },
+            {
+              "description": "Kleinunternehmer ohne Umsatzsteuer",
+              "prompt": "Ich bin Kleinunternehmerin: Lena Weber Design, Kastanienallee 12, 10435 Berlin, Steuernummer 30/123/45678, hallo@lenaweber.example, Tel. 030 9876543, Ansprechpartner Lena Weber, IBAN DE89370400440532013000. Rechnung 2026-003 an Max Muster GmbH, Hauptstr. 5, 80331 München, ap@muster.example, Referenz PO-77: Logo-Design 350 €.",
+              "tools_triggered": "create_invoice",
+              "expected_behavior": "Steuerfall Kleinunternehmer (§ 19 UStG), USt 0,00 €, Brutto 350,00 €, Download-Link."
+            },
+            {
+              "description": "Validierungsfehler erklären",
+              "prompt": "Was bedeutet der Fehler BR-DE-15 in meiner XRechnung und wie behebe ich ihn?",
+              "tools_triggered": "explain_rule",
+              "expected_behavior": "Erklärt, dass die Käuferreferenz (BT-10) fehlt, nennt die Lösung und verlinkt https://www.erechnungdigital.com/pruefregeln/br-de-15."
+            },
+            {
+              "description": "Vorhandene XRechnung prüfen",
+              "prompt": "Prüf bitte diese XRechnung: <XML aus https://raw.githubusercontent.com/maximilianNeon/e-rechnung-digital/main/tests/fixtures/invoices/xrechnung-standard.cii.xml einfügen>",
+              "tools_triggered": "check_invoice",
+              "expected_behavior": "Liest Rechnung 123456XX und meldet keine Fehler (höchstens Hinweise)."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Allgemeine Steuerfrage ohne Rechnung: kein Tool, normale Antwort",
+              "prompt": "Wie hoch ist der Mehrwertsteuersatz in Frankreich?"
+            },
+            {
+              "description": "Mahnschreiben statt E-Rechnung: kein Tool, Hinweis dass das Plugin nur E-Rechnungen erstellt",
+              "prompt": "Schreib mir eine Mahnung als Brief an einen säumigen Kunden."
+            },
+            {
+              "description": "Unvollständige Anfrage: Rückfrage nach Leistungen und Beträgen statt erfundener Positionen",
+              "prompt": "Erstell eine Rechnung an Bäckerei Krume."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "Keine Zahlungen oder Verkäufe. Das Plugin erzeugt nur Rechnungsdokumente."
+      },
+      "publication": {
+        "countries": [
+          "DE",
+          "AT",
+          "CH"
+        ],
+        "release_notes": "Erste Version: E-Rechnungen erstellen, prüfen und Fehlercodes erklären."
+      }
+    }
+  }
+}
