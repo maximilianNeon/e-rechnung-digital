@@ -4330,7 +4330,7 @@ function buildDraft(input, seller) {
 }
 
 // src/core.ts
-var VERSION = "0.2.0";
+var VERSION = "0.2.1";
 var SITE = absoluteUrl("/");
 var TAX_HINT = "Frag nach dem Steuerfall, wenn er unklar ist (19 %, 7 %, Kleinunternehmer \xA7 19 UStG, Reverse Charge \xA7 13b UStG, steuerfrei). Bei Beh\xF6rden ist die K\xE4uferreferenz die Leitweg-ID.";
 function text(value, isError = false) {

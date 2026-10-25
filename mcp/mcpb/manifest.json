@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "erechnung-digital",
   "display_name": "E-RechnungDigital",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Deutsche E-Rechnungen (XRechnung, ZUGFeRD) im Chat erstellen, lesen und prüfen – lokal, ohne Upload.",
   "long_description": "Schreib im Chat einfach, wem du was berechnen willst. Claude erstellt daraus eine E-Rechnung nach EN 16931: XRechnung-XML für Portale und Buchhaltung und ZUGFeRD-PDF für Kunden. Pflichtangaben werden vorher geprüft, Fehlercodes wie BR-DE-15 verständlich erklärt. Deine Firmendaten werden einmal lokal gespeichert, Rechnungen landen im gewählten Ordner. Nichts verlässt deinen Rechner.",
   "author": {

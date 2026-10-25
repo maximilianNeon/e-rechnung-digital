@@ -9,7 +9,7 @@ import { absoluteUrl } from "../../src/seo/site.ts";
 import { checkDraft, formatIssues, type Issue } from "./checks.ts";
 import { buildDraft, type InvoiceInput, type SellerProfileInput } from "./draft.ts";
 
-export const VERSION = "0.2.0";
+export const VERSION = "0.2.1";
 export const SITE = absoluteUrl("/");
 
 export const TAX_HINT =
