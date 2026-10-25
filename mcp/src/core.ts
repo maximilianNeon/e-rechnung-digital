@@ -64,7 +64,7 @@ export function registerExplainRule(server: McpServer): void {
       description:
         "Erklärt eine Validierungsregel der E-Rechnung (z. B. BR-DE-15, BR-CO-10) in einfachem Deutsch: Bedeutung, Ursache, Lösung und Link.",
       inputSchema: { id: z.string().describe("Regel-ID, z. B. BR-DE-15") },
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+      annotations: { title: "Prüfregel erklären", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     },
     async ({ id }) => {
       const rule = getRule(id);

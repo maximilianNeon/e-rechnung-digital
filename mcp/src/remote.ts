@@ -38,7 +38,7 @@ function createServer(): McpServer {
         invoiceNumber: z.string().describe("Rechnungsnummer, fortlaufend und einmalig"),
         seller: sellerSchema.describe("Eigene Firmendaten (Absender)"),
       },
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+      annotations: { title: "E-Rechnung erstellen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     },
     async (input) => {
       const prepared = await prepareInvoice(input, input.seller);
@@ -77,7 +77,7 @@ function createServer(): McpServer {
       description:
         "Prüft den XML-Inhalt einer XRechnung oder ZUGFeRD-Rechnung (CII) auf Pflichtangaben, Rechenfehler und EN-16931-Regeln. Ersetzt nicht den offiziellen KoSIT-Validator. Der Inhalt wird nicht gespeichert.",
       inputSchema: { xml: z.string().describe("Vollständiger XML-Inhalt der Rechnung") },
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+      annotations: { title: "E-Rechnung prüfen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
     },
     async ({ xml }) => {
       try {
