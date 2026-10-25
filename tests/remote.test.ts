@@ -1,4 +1,5 @@
 // Talks to the bundled Vercel function (api/mcp.js) over HTTP like ChatGPT and Claude.ai do.
+import { readFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
@@ -77,6 +78,12 @@ assert(missing.isError && missingText.includes("BR-DE-15") && missingText.includ
 const { generateInvoiceFiles } = await import("../src/lib/generate.ts");
 const checked = await client.callTool({ name: "check_invoice", arguments: { xml: (await generateInvoiceFiles(sample)).xml } });
 assert((checked.content as { text?: string }[])[0].text?.includes("keine Probleme"), "check_invoice on a valid XML");
+
+const official = await client.callTool({
+  name: "check_invoice",
+  arguments: { xml: readFileSync("tests/fixtures/invoices/xrechnung-standard.cii.xml", "utf8") },
+});
+assert(!(official.content as { text?: string }[])[0].text?.includes("- Fehler"), "official KoSIT sample has no errors");
 
 const explained = await client.callTool({ name: "explain_rule", arguments: { id: "br-de-15" } });
 assert((explained.content as { text?: string }[])[0].text?.includes("Käuferreferenz"), "explain_rule");
