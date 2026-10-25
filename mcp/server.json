@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "name": "com.erechnungdigital/mcp",
   "title": "E-RechnungDigital",
-  "description": "Deutsche E-Rechnungen (EN 16931, ZUGFeRD) lokal erstellen, lesen und prüfen. Fehlercodes wie BR-DE-15 erklärt.",
+  "description": "XRechnung und ZUGFeRD lokal erstellen, lesen und prüfen. Fehlercodes wie BR-DE-15 erklärt.",
   "websiteUrl": "https://www.erechnungdigital.com/ki-assistenten",
   "version": "0.1.1",
   "packages": [
@@ -10,10 +10,20 @@
       "registryType": "npm",
       "identifier": "erechnung-digital-mcp",
       "version": "0.1.1",
-      "transport": { "type": "stdio" },
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
-        { "name": "ERECHNUNG_OUTPUT_DIR", "description": "Zielordner für erzeugte Rechnungen", "isRequired": false },
-        { "name": "ERECHNUNG_HOME", "description": "Ordner für das Absenderprofil", "isRequired": false }
+        {
+          "name": "ERECHNUNG_OUTPUT_DIR",
+          "description": "Zielordner für erzeugte Rechnungen",
+          "isRequired": false
+        },
+        {
+          "name": "ERECHNUNG_HOME",
+          "description": "Ordner für das Absenderprofil",
+          "isRequired": false
+        }
       ]
     }
   ]
