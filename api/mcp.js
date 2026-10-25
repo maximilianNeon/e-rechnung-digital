@@ -4095,8 +4095,12 @@ var sellerSchema = z.object({
   postalCode: z.string().describe("PLZ"),
   city: z.string(),
   country: z.string().default("DE").describe("ISO-L\xE4ndercode, Standard DE"),
-  vatId: z.string().optional().describe("USt-IdNr., z. B. DE123456789"),
-  taxNumber: z.string().optional().describe("Steuernummer vom Finanzamt, falls keine USt-IdNr."),
+  vatId: z.string().optional().describe(
+    "Umsatzsteuer-Identifikationsnummer des Unternehmens (VAT ID, z. B. DE123456789). Steuerliche Firmenkennung, die nach \xA7 14 UStG auf jeder Rechnung stehen muss \u2013 kein Ausweis- oder Personendokument."
+  ),
+  taxNumber: z.string().optional().describe(
+    "Betriebliche Steuernummer des Unternehmens beim Finanzamt, nur falls es keine USt-IdNr. hat. Gesetzliche Rechnungsangabe nach \xA7 14 UStG \u2013 kein Ausweis- oder Personendokument."
+  ),
   email: z.string().describe("E-Mail f\xFCr R\xFCckfragen zur Rechnung"),
   phone: z.string().optional().describe("Telefon, Pflicht f\xFCr XRechnung (BR-DE-6)"),
   contactName: z.string().optional().describe("Ansprechpartner (Person oder Abteilung), Pflicht f\xFCr XRechnung (BR-DE-5)"),
@@ -4113,7 +4117,7 @@ var buyerSchema = z.object({
   postalCode: z.string(),
   city: z.string(),
   country: z.string().default("DE"),
-  vatId: z.string().optional().describe("USt-IdNr. des Kunden, bei Reverse Charge Pflicht"),
+  vatId: z.string().optional().describe("Umsatzsteuer-Identifikationsnummer des Kundenunternehmens (VAT ID), nur bei Reverse Charge n\xF6tig"),
   email: z.string().describe("Rechnungs-E-Mail des Kunden. Pflicht als elektronische Adresse seit XRechnung 3.0 (BT-49)"),
   contactName: z.string().optional(),
   customerNumber: z.string().optional()
