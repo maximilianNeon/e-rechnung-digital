@@ -4055,7 +4055,8 @@ function checkDraft(draft) {
   const result = validateInvoice(toZugferdInvoice(draft));
   for (const error of [...result.errors, ...result.warnings]) {
     if (issues.some((issue) => issue.rule === error.ruleId)) continue;
-    issues.push({ severity: error.severity, message: error.message, rule: error.ruleId });
+    const severity = error.ruleId === "INPUT-CODE-02" ? "warning" : error.severity;
+    issues.push({ severity, message: error.message, rule: error.ruleId });
   }
   if (draft.lines.some((line) => line.taxCase === "reverseCharge") && !draft.buyer.vatId.trim()) {
     issues.push({

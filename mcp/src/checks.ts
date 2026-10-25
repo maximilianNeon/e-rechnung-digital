@@ -51,7 +51,9 @@ export function checkDraft(draft: InvoiceDraft): Issue[] {
   const result = validateInvoice(toZugferdInvoice(draft));
   for (const error of [...result.errors, ...result.warnings]) {
     if (issues.some((issue) => issue.rule === error.ruleId)) continue;
-    issues.push({ severity: error.severity, message: error.message, rule: error.ruleId });
+    // zugferd-ts only knows a subset of UN/ECE unit codes; valid ones like XPP would fail.
+    const severity = error.ruleId === "INPUT-CODE-02" ? "warning" : error.severity;
+    issues.push({ severity, message: error.message, rule: error.ruleId });
   }
 
   if (draft.lines.some((line) => line.taxCase === "reverseCharge") && !draft.buyer.vatId.trim()) {
