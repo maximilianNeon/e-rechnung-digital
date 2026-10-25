@@ -14,6 +14,9 @@ import { AiAssistantsPage } from "./pages/AiAssistants";
 const CreatePage = lazy(() =>
   import("./pages/Create").then((module) => ({ default: module.CreatePage })),
 );
+const SharedInvoicePage = lazy(() =>
+  import("./pages/SharedInvoice").then((module) => ({ default: module.SharedInvoicePage })),
+);
 const OpenPage = lazy(() =>
   import("./pages/Open").then((module) => ({ default: module.OpenPage })),
 );
@@ -39,6 +42,14 @@ export function AppRoutes() {
         element={
           <Suspense fallback={<LazyFallback />}>
             <OpenPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="rechnung"
+        element={
+          <Suspense fallback={<LazyFallback />}>
+            <SharedInvoicePage />
           </Suspense>
         }
       />

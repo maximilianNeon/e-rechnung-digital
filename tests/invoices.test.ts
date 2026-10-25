@@ -7,6 +7,7 @@ import { generateInvoiceFiles, toZugferdInvoice, XRECHNUNG_ID } from "../src/lib
 import type { InvoiceDraft, TaxCase } from "../src/lib/model.ts";
 import { parseCiiXml, parseInvoiceFile } from "../src/lib/parse.ts";
 import { createSampleDraft } from "../src/lib/sample.ts";
+import { decodeDraft, encodeDraft } from "../src/lib/share.ts";
 import { getExportBlockers } from "../src/lib/validation.ts";
 
 const dom = new GlobalWindow();
@@ -292,5 +293,10 @@ assert(smallXml.includes("<ram:CategoryCode>E</ram:CategoryCode>"), "small busin
 assert(smallXml.includes("§ 19 UStG"), "small business exemption reason");
 assert(smallXml.includes("<ram:ID>27/123/45678</ram:ID>"), "tax number as seller id");
 assert(parseCiiXml(smallXml).draft.lines.every((line) => line.taxCase === "kleinunternehmer"), "reads back as § 19");
+
+// Links from the hosted MCP server carry the draft in the URL fragment.
+const shared = await decodeDraft(`#${await encodeDraft(sample)}`);
+assert(JSON.stringify(shared.lines) === JSON.stringify(sample.lines), "share link round trip");
+assert(shared.appearance.logoDataUrl === null, "share link drops the logo");
 
 console.log("invoices.test.ts ok");

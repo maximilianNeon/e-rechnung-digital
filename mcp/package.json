@@ -1,6 +1,6 @@
 {
   "name": "erechnung-digital-mcp",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "MCP-Server für E-Rechnungen: XRechnung-taugliches CII-XML und ZUGFeRD-PDF in Claude, ChatGPT, Cursor & Co. erstellen, lesen und prüfen – lokal, ohne Upload.",
   "type": "module",
   "license": "MIT",
@@ -33,7 +33,8 @@
     "build": "node build.mjs",
     "start": "node dist/index.js",
     "test": "node build.mjs && node test/smoke.mjs",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "build:mcpb": "node mcpb/build.mjs && npx -y @anthropic-ai/mcpb@2.1.2 validate mcpb/manifest.json && npx -y @anthropic-ai/mcpb@2.1.2 pack mcpb ../public/downloads/erechnung-digital.mcpb"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

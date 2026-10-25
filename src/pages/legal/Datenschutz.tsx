@@ -60,21 +60,38 @@ export function DatenschutzPage() {
       <section className={styles.block}>
         <h2>4. KI-ASSISTENTEN (MCP-SERVER)</h2>
         <p>
-          Optional bieten wir das Programm „erechnung-digital-mcp“ an. Es verbindet KI-Assistenten
-          wie Claude, ChatGPT oder Cursor mit E-RechnungDigital und läuft vollständig auf Ihrem
-          eigenen Rechner. Absenderprofil und erzeugte Rechnungen speichert es dort als Dateien. An
-          uns werden dabei keine Rechnungsdaten übertragen; wir betreiben dafür keinen Server.
+          E-RechnungDigital lässt sich mit KI-Assistenten wie ChatGPT, Claude oder Cursor verbinden.
+          Dafür gibt es zwei Wege, die sich beim Datenschutz unterscheiden.
+        </p>
+        <p>
+          <strong>Lokal (Claude-Desktop-Erweiterung oder Programm „erechnung-digital-mcp“):</strong>{" "}
+          Das Programm läuft vollständig auf Ihrem eigenen Rechner. Absenderprofil und erzeugte
+          Rechnungen speichert es dort als Dateien. An uns werden keine Rechnungsdaten übertragen.
+          Beim Herunterladen über die Paketverwaltung npm (npm, Inc., ein Unternehmen von GitHub)
+          verarbeitet npm technisch übliche Zugriffsdaten wie die IP-Adresse nach seinen eigenen
+          Bestimmungen.
+        </p>
+        <p>
+          <strong>Gehostet (Verbindung unter https://www.erechnungdigital.com/mcp):</strong> Wenn Sie
+          E-RechnungDigital als App oder Konnektor in ChatGPT oder Claude.ai nutzen, schickt der
+          Anbieter des Assistenten die Rechnungsangaben aus dem Gespräch an unseren Server. Das sind
+          Absender- und Empfängerdaten, Positionen, Beträge und Bankverbindung. Der Server prüft die
+          Angaben und gibt einen Link zurück. Die Verarbeitung findet nur im Arbeitsspeicher statt, in
+          einem Rechenzentrum von Vercel Inc. in Frankfurt am Main. Wir speichern die Rechnungsdaten
+          nicht und schreiben sie nicht in Protokolle. Es fallen nur die unter Punkt 5 beschriebenen
+          technischen Zugriffsdaten an. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Bereitstellung
+          der von Ihnen angeforderten Funktion).
+        </p>
+        <p>
+          Der zurückgegebene Link enthält die Rechnungsdaten im Teil hinter dem Zeichen „#“. Diesen Teil
+          sendet Ihr Browser nicht an unseren Server; PDF und XML entstehen beim Öffnen in Ihrem
+          Browser. Wer den Link erhält, kann die Rechnung sehen. Geben Sie ihn deshalb nur bewusst
+          weiter.
         </p>
         <p>
           Was Sie in den Chat eingeben und was der Assistent aus den Werkzeugen zurückbekommt,
-          verarbeitet der Anbieter des jeweiligen KI-Assistenten nach seinen eigenen
-          Datenschutzbestimmungen. Darauf haben wir keinen Einfluss. Verantwortlich für diese
-          Verarbeitung ist der jeweilige Anbieter bzw. Sie selbst als Nutzer.
-        </p>
-        <p>
-          Das Programm wird über die Paketverwaltung npm (npm, Inc., ein Unternehmen von GitHub)
-          bezogen. Beim Herunterladen verarbeitet npm technisch übliche Zugriffsdaten wie die
-          IP-Adresse nach seinen eigenen Bestimmungen.
+          verarbeitet der Anbieter des jeweiligen KI-Assistenten (z. B. OpenAI oder Anthropic) nach
+          seinen eigenen Datenschutzbestimmungen. Darauf haben wir keinen Einfluss.
         </p>
       </section>
 

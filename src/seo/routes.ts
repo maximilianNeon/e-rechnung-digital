@@ -146,6 +146,21 @@ export const seoRoutes: SeoRoute[] = [
       </main>`,
   },
   {
+    path: "/rechnung",
+    title: "Rechnung aus dem Chat",
+    description: "E-Rechnung aus dem KI-Assistenten als ZUGFeRD-PDF oder XRechnung-XML laden.",
+    type: "website",
+    lastmod: DEFAULT_LASTMOD,
+    inSitemap: false,
+    indexable: false,
+    prerender: false,
+    staticBody: `
+      <main>
+        <h1>Rechnung aus dem Chat</h1>
+        <p>Die Rechnung wird geladen …</p>
+      </main>`,
+  },
+  {
     path: "/ratgeber",
     title: "Ratgeber zur E-Rechnung",
     description:
