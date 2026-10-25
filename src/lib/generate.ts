@@ -120,6 +120,10 @@ export function toZugferdInvoice(draft: InvoiceDraft): ZugferdInvoice {
         name: draft.buyer.contactName.trim() || undefined,
         email: draft.buyer.email.trim() || undefined,
       },
+      // BT-49, mandatory since XRechnung 3.0 (PEPPOL-EN16931-R010)
+      electronicAddress: draft.buyer.email.trim()
+        ? { id: draft.buyer.email.trim(), schemeId: "EM" }
+        : undefined,
     },
     paymentMeans: {
       typeCode: "58",
@@ -564,6 +568,14 @@ async function buildVisualPdf(draft: InvoiceDraft): Promise<Uint8Array> {
   return pdf.save();
 }
 
+/** zugferd-ts always writes the Factur-X EXTENDED id. The standalone XML is a XRechnung (BR-DE-21). */
+const FACTURX_EXTENDED_ID = "urn:cen.eu:en16931:2017#conformant#urn:factur-x.eu:1p0:extended";
+export const XRECHNUNG_ID = "urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0";
+
+export function toXRechnungXml(xml: string): string {
+  return xml.replace(`<ram:ID>${FACTURX_EXTENDED_ID}</ram:ID>`, `<ram:ID>${XRECHNUNG_ID}</ram:ID>`);
+}
+
 export interface GenerateResult {
   xml: string;
   pdf: Uint8Array;
@@ -584,7 +596,7 @@ export async function generateInvoiceFiles(draft: InvoiceDraft): Promise<Generat
     }
     if (xmlFallback && !result.validationErrors.length) {
       return {
-        xml: xmlFallback,
+        xml: toXRechnungXml(xmlFallback),
         pdf: visualPdf,
         fileBase: draft.invoiceNumber.replace(/[^\w.-]+/g, "_") || "rechnung",
       };
@@ -597,7 +609,7 @@ export async function generateInvoiceFiles(draft: InvoiceDraft): Promise<Generat
 
   const fileBase = draft.invoiceNumber.replace(/[^\w.-]+/g, "_") || "rechnung";
   return {
-    xml: result.xml || generateXml(zugferd),
+    xml: toXRechnungXml(result.xml || generateXml(zugferd)),
     pdf: result.pdfBuffer,
     fileBase,
   };

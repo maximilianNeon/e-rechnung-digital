@@ -32,6 +32,16 @@ function first(parent: Element | Document, localName: string): Element | null {
   return all(parent, localName)[0] ?? null;
 }
 
+/** Electronic address (BT-34 / BT-49) when it is an e-mail (scheme EM). */
+function electronicEmail(party: Element): string {
+  for (const el of all(party, "URIUniversalCommunication")) {
+    if (el.parentElement !== party) continue;
+    const id = first(el, "URIID");
+    if (id?.getAttribute("schemeID") === "EM") return textContent(id);
+  }
+  return "";
+}
+
 function ciiToIso(date: string): string {
   if (/^\d{8}$/.test(date)) {
     return `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
@@ -124,6 +134,7 @@ export function parseCiiXml(xml: string): ParseResult {
       draft.seller.email = textContent(first(contact, "URIID")) || textContent(first(contact, "EmailURI"));
       draft.seller.phone = textContent(first(contact, "CompleteNumber"));
     }
+    draft.seller.email ||= electronicEmail(sellerTrade);
   }
 
   const buyerTrade = first(doc, "BuyerTradeParty");
@@ -141,6 +152,12 @@ export function parseCiiXml(xml: string): ParseResult {
       const id = textContent(first(tax, "ID"));
       if (id) draft.buyer.vatId = id;
     }
+    const buyerContact = first(buyerTrade, "DefinedTradeContact");
+    if (buyerContact) {
+      draft.buyer.contactName = textContent(first(buyerContact, "PersonName"));
+      draft.buyer.email = textContent(first(buyerContact, "URIID"));
+    }
+    draft.buyer.email ||= electronicEmail(buyerTrade);
   }
 
   const iban = first(doc, "IBANID");

@@ -33,6 +33,7 @@ import {
   validateDate,
   validateDueDate,
   validateEmail,
+  validatePhone,
   validateIban,
   validateLeitwegId,
   validateMoney,
@@ -558,6 +559,36 @@ export function CreatePage() {
                 />
               </Field>
             </div>
+            <div className={styles.row}>
+              <Field
+                label="Ansprechpartner"
+                fieldId="seller.contactName"
+                required
+                markMissing={isMissing("seller.contactName")}
+                result={validateRequired(draft.seller.contactName)}
+                hint="Person oder Abteilung, etwa Buchhaltung."
+              >
+                <input
+                  value={draft.seller.contactName}
+                  autoComplete="name"
+                  onChange={(e) => updateSeller({ contactName: e.target.value })}
+                />
+              </Field>
+              <Field
+                label="Telefon"
+                fieldId="seller.phone"
+                required
+                markMissing={isMissing("seller.phone")}
+                result={validatePhone(draft.seller.phone)}
+              >
+                <input
+                  value={draft.seller.phone}
+                  type="tel"
+                  autoComplete="tel"
+                  onChange={(e) => updateSeller({ phone: e.target.value })}
+                />
+              </Field>
+            </div>
             <Field
               label="Steuernummer"
               fieldId="seller.taxNumber"
@@ -594,8 +625,11 @@ export function CreatePage() {
               </Field>
               <Field
                 label="E-Mail"
-                optional
-                result={draft.buyer.email ? validateEmail(draft.buyer.email) : undefined}
+                fieldId="buyer.email"
+                required
+                markMissing={isMissing("buyer.email")}
+                result={validateEmail(draft.buyer.email)}
+                hint="Elektronische Adresse des Empfängers, Pflicht seit XRechnung 3.0."
               >
                 <input
                   value={draft.buyer.email}
