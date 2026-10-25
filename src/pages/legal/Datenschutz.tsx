@@ -58,7 +58,28 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>4. HOSTING UND SERVERPROTOKOLLE</h2>
+        <h2>4. KI-ASSISTENTEN (MCP-SERVER)</h2>
+        <p>
+          Optional bieten wir das Programm „erechnung-digital-mcp“ an. Es verbindet KI-Assistenten
+          wie Claude, ChatGPT oder Cursor mit E-RechnungDigital und läuft vollständig auf Ihrem
+          eigenen Rechner. Absenderprofil und erzeugte Rechnungen speichert es dort als Dateien. An
+          uns werden dabei keine Rechnungsdaten übertragen; wir betreiben dafür keinen Server.
+        </p>
+        <p>
+          Was Sie in den Chat eingeben und was der Assistent aus den Werkzeugen zurückbekommt,
+          verarbeitet der Anbieter des jeweiligen KI-Assistenten nach seinen eigenen
+          Datenschutzbestimmungen. Darauf haben wir keinen Einfluss. Verantwortlich für diese
+          Verarbeitung ist der jeweilige Anbieter bzw. Sie selbst als Nutzer.
+        </p>
+        <p>
+          Das Programm wird über die Paketverwaltung npm (npm, Inc., ein Unternehmen von GitHub)
+          bezogen. Beim Herunterladen verarbeitet npm technisch übliche Zugriffsdaten wie die
+          IP-Adresse nach seinen eigenen Bestimmungen.
+        </p>
+      </section>
+
+      <section className={styles.block}>
+        <h2>5. HOSTING UND SERVERPROTOKOLLE</h2>
         <p>
           Die Website wird über einen Hosting-Anbieter bereitgestellt (derzeit Vercel Inc.). Beim
           Aufruf entstehen technisch übliche Zugriffsdaten, etwa IP-Adresse, Zeitpunkt, aufgerufene
@@ -78,7 +99,7 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>5. KEINE ANALYSE, KEINE WERBE-COOKIES</h2>
+        <h2>6. KEINE ANALYSE, KEINE WERBE-COOKIES</h2>
         <p>
           Wir setzen keine Reichweitenmessung, kein Tracking und keine Werbung ein. Schriften und
           Anwendungslogik werden mit der Website ausgeliefert. Cookies, die nicht für den technischen
@@ -88,7 +109,7 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>6. KONTAKT PER E-MAIL</h2>
+        <h2>7. KONTAKT PER E-MAIL</h2>
         <p>
           Wenn Sie uns schreiben, verarbeiten wir die von Ihnen mitgeteilten Daten (z. B. E-Mail und
           Nachrichtentext), um Ihre Anfrage zu beantworten. Rechtsgrundlage: Art. 6 Abs. 1 lit. b
@@ -97,7 +118,7 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>7. SPEICHERDAUER</h2>
+        <h2>8. SPEICHERDAUER</h2>
         <p>
           Serverprotokolle und Korrespondenz speichern wir nur so lange, wie es für Betrieb,
           Sicherheit oder die Bearbeitung Ihrer Anfrage erforderlich ist bzw. gesetzliche
@@ -106,7 +127,7 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>8. IHRE RECHTE</h2>
+        <h2>9. IHRE RECHTE</h2>
         <p>Sie haben nach der DSGVO insbesondere das Recht auf:</p>
         <ul>
           <li>Auskunft über die bei uns gespeicherten personenbezogenen Daten</li>
@@ -126,7 +147,7 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>9. SICHERHEIT</h2>
+        <h2>10. SICHERHEIT</h2>
         <p>
           Wir treffen angemessene technische und organisatorische Maßnahmen, unter anderem Transport
           per HTTPS. Eine absolute Sicherheit bei der Übertragung über das Internet können wir nicht
@@ -135,12 +156,12 @@ export function DatenschutzPage() {
       </section>
 
       <section className={styles.block}>
-        <h2>10. ÄNDERUNGEN</h2>
+        <h2>11. ÄNDERUNGEN</h2>
         <p>
           Wir können diese Datenschutzerklärung anpassen, etwa wenn sich Funktionen oder Hosting
           ändern. Die aktuelle Fassung finden Sie stets auf dieser Seite.
         </p>
-        <p>Stand: 20. Oktober 2026</p>
+        <p>Stand: 25. Oktober 2026</p>
       </section>
     </main>
   );
