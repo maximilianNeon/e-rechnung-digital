@@ -229,6 +229,10 @@ assert(
 const generated = await generateInvoiceFiles(sample);
 assert(generated.xml.includes(XRECHNUNG_ID), "xml must carry the XRechnung id (BR-DE-21)");
 assert(
+  generated.xml.includes("<rsm:SupplyChainTradeTransaction>"),
+  "transaction must use the rsm namespace (patches/zugferd-ts)",
+);
+assert(
   generated.xml.includes(`schemeID="EM">${sample.buyer.email}`),
   "xml must carry the buyer electronic address (BT-49)",
 );
@@ -277,5 +281,16 @@ assert(
   getExportBlockers(noBuyerMail).some((b) => b.field === "buyer.email"),
   "buyer e-mail required (BT-49)",
 );
+
+// § 19 UStG: category E with 0 %, tax number as seller id (BR-DE-14, BR-CO-26).
+const small = createSampleDraft();
+small.seller.vatId = "";
+small.seller.taxNumber = "27/123/45678";
+small.lines = small.lines.map((line) => ({ ...line, taxCase: "kleinunternehmer" as TaxCase }));
+const smallXml = (await generateInvoiceFiles(small)).xml;
+assert(smallXml.includes("<ram:CategoryCode>E</ram:CategoryCode>"), "small business uses category E");
+assert(smallXml.includes("§ 19 UStG"), "small business exemption reason");
+assert(smallXml.includes("<ram:ID>27/123/45678</ram:ID>"), "tax number as seller id");
+assert(parseCiiXml(smallXml).draft.lines.every((line) => line.taxCase === "kleinunternehmer"), "reads back as § 19");
 
 console.log("invoices.test.ts ok");
