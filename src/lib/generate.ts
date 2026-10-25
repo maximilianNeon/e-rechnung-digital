@@ -1,4 +1,5 @@
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
+import { PDFDocument, rgb } from "pdf-lib";
 import {
   generateXml,
   generateZugferd,
@@ -12,6 +13,8 @@ import {
   unitLabel,
 } from "./model";
 import { formatDateDe, formatMoney, formatQuantity, parseMoneyInput, roundMoney, toCiiDate } from "./money";
+import { GEIST_BOLD, GEIST_REGULAR } from "./pdfAssets";
+import { base64ToBytes, completePdfA3 } from "./pdfa";
 import { computeTotals } from "./totals";
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -28,13 +31,11 @@ function countryCode(country: string): string {
   return country.slice(0, 2).toUpperCase() || "DE";
 }
 
-/** Helvetica in PDFs only covers WinAnsi. Euro and dashes are rewritten. */
+/** The embedded Geist subset covers Latin-1, €, dashes and quotes. */
 function pdfText(value: string): string {
   return value
-    .replace(/\u20AC/g, "EUR")
-    .replace(/\u2013|\u2014/g, "-")
     .replace(/\u00A0/g, " ")
-    .replace(/[^\u0020-\u00FF]/g, "")
+    .replace(/[^\u0020-\u007E\u00A1-\u00FF\u20AC\u2013\u2014\u2018-\u201E\u2022\u2026]/g, "")
     .trim();
 }
 
@@ -176,8 +177,10 @@ export function toZugferdInvoice(draft: InvoiceDraft): ZugferdInvoice {
 async function buildVisualPdf(draft: InvoiceDraft): Promise<Uint8Array> {
   const totals = computeTotals(draft);
   const pdf = await PDFDocument.create();
-  const font = await pdf.embedFont(StandardFonts.Helvetica);
-  const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  // PDF/A-3 needs embedded fonts; the standard 14 fonts are only referenced.
+  pdf.registerFontkit(fontkit);
+  const font = await pdf.embedFont(base64ToBytes(GEIST_REGULAR));
+  const fontBold = await pdf.embedFont(base64ToBytes(GEIST_BOLD));
   const brand = hexToRgb(draft.appearance.brandColor);
   const brandColor = rgb(brand.r, brand.g, brand.b);
   const ink = rgb(0.08, 0.14, 0.11);
@@ -612,7 +615,7 @@ export async function generateInvoiceFiles(draft: InvoiceDraft): Promise<Generat
   const fileBase = draft.invoiceNumber.replace(/[^\w.-]+/g, "_") || "rechnung";
   return {
     xml: toXRechnungXml(result.xml || generateXml(zugferd)),
-    pdf: result.pdfBuffer,
+    pdf: await completePdfA3(result.pdfBuffer),
     fileBase,
   };
 }
