@@ -1,12 +1,12 @@
 name: IndexNow
 
 on:
-  deployment_status:
+  status:
 
 jobs:
   ping:
-    # Vercel reports each deploy as a GitHub deployment; only ping for production.
-    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    # Vercel reports deploys as the commit status "Vercel"; only ping once main is live.
+    if: github.event.context == 'Vercel' && github.event.state == 'success' && contains(github.event.branches.*.name, 'main')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
