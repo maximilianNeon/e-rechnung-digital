@@ -86,6 +86,16 @@ export function validateEmail(raw: string): FieldResult {
   return { status: "valid" };
 }
 
+/** XRechnung wants at least three digits (BR-DE-27). */
+export function validatePhone(raw: string): FieldResult {
+  const phone = raw.trim();
+  if (!phone) return { status: "empty" };
+  if ((phone.match(/\d/g) ?? []).length < 3 || /[^\d\s+()/.-]/.test(phone)) {
+    return { status: "invalid", message: "Telefonnummer mit mindestens drei Ziffern." };
+  }
+  return { status: "valid" };
+}
+
 export function validatePostalCode(raw: string, country: string): FieldResult {
   const plz = raw.trim();
   if (!plz) return { status: "empty" };
@@ -183,6 +193,8 @@ export function getExportBlockers(draft: InvoiceDraft): ExportBlocker[] {
   push("seller.city", "den Absenderort", !!seller.address.city.trim());
   push("seller.country", "das Absenderland", !!seller.address.country.trim());
   push("seller.email", "die Absender-E-Mail", validateEmail(seller.email).status === "valid");
+  push("seller.contactName", "den Ansprechpartner", !!seller.contactName.trim());
+  push("seller.phone", "die Absender-Telefonnummer", validatePhone(seller.phone).status === "valid");
   const sellerTaxOk =
     validateVatId(seller.vatId).status === "valid" || !!seller.taxNumber.trim();
   push("seller.vatId", "USt-IdNr. oder Steuernummer", sellerTaxOk);
@@ -190,6 +202,7 @@ export function getExportBlockers(draft: InvoiceDraft): ExportBlocker[] {
 
   const buyer = draft.buyer;
   push("buyer.name", "den Empfängernamen", !!buyer.name.trim());
+  push("buyer.email", "die Empfänger-E-Mail", validateEmail(buyer.email).status === "valid");
   push("buyer.street", "die Empfängerstraße", !!buyer.address.street.trim());
   push(
     "buyer.postalCode",
@@ -282,6 +295,8 @@ export function getMissingFieldIds(draft: InvoiceDraft): Set<string> {
   push("seller.city", !!draft.seller.address.city.trim());
   push("seller.country", !!draft.seller.address.country.trim());
   push("seller.email", validateEmail(draft.seller.email).status === "valid");
+  push("seller.contactName", !!draft.seller.contactName.trim());
+  push("seller.phone", validatePhone(draft.seller.phone).status === "valid");
   const sellerTaxOk =
     validateVatId(draft.seller.vatId).status === "valid" || !!draft.seller.taxNumber.trim();
   if (!sellerTaxOk) {
@@ -289,6 +304,7 @@ export function getMissingFieldIds(draft: InvoiceDraft): Set<string> {
     ids.add("seller.taxNumber");
   }
   push("buyer.name", !!draft.buyer.name.trim());
+  push("buyer.email", validateEmail(draft.buyer.email).status === "valid");
   push("buyer.street", !!draft.buyer.address.street.trim());
   push(
     "buyer.postalCode",

@@ -3,10 +3,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GlobalWindow } from "happy-dom";
 import { validateInvoice } from "zugferd-ts";
-import { generateInvoiceFiles, toZugferdInvoice } from "../src/lib/generate.ts";
+import { generateInvoiceFiles, toZugferdInvoice, XRECHNUNG_ID } from "../src/lib/generate.ts";
 import type { InvoiceDraft, TaxCase } from "../src/lib/model.ts";
 import { parseCiiXml, parseInvoiceFile } from "../src/lib/parse.ts";
 import { createSampleDraft } from "../src/lib/sample.ts";
+import { getExportBlockers } from "../src/lib/validation.ts";
 
 const dom = new GlobalWindow();
 globalThis.DOMParser = dom.DOMParser as unknown as typeof DOMParser;
@@ -226,6 +227,11 @@ assert(
 );
 
 const generated = await generateInvoiceFiles(sample);
+assert(generated.xml.includes(XRECHNUNG_ID), "xml must carry the XRechnung id (BR-DE-21)");
+assert(
+  generated.xml.includes(`schemeID="EM">${sample.buyer.email}`),
+  "xml must carry the buyer electronic address (BT-49)",
+);
 const fromXml = parseCiiXml(generated.xml);
 const fromPdf = await parseInvoiceFile(
   new File([generated.pdf], `${generated.fileBase}.pdf`, { type: "application/pdf" }),
@@ -239,6 +245,7 @@ for (const [label, draft] of [
   assert(draft.seller.name === sample.seller.name, `${label}: seller`);
   assert(draft.buyer.name === sample.buyer.name, `${label}: buyer`);
   assert(draft.buyerReference === sample.buyerReference, `${label}: reference`);
+  assert(draft.buyer.email === sample.buyer.email, `${label}: buyer email ${draft.buyer.email}`);
   assert(draft.issueDate === sample.issueDate, `${label}: issue`);
   assert(draft.deliveryDate === sample.deliveryDate, `${label}: delivery`);
   assert(draft.dueDate === sample.dueDate, `${label}: due`);
@@ -256,5 +263,19 @@ for (const [label, draft] of [
     assert(got.articleNumber === line.articleNumber, `${label}: article ${got.articleNumber}`);
   });
 }
+
+const noContact = createSampleDraft();
+noContact.seller.contactName = "";
+noContact.seller.phone = "-";
+const blocked = getExportBlockers(noContact).map((b) => b.field);
+assert(blocked.includes("seller.contactName"), "contact name required (BR-DE-5)");
+assert(blocked.includes("seller.phone"), "phone with digits required (BR-DE-6, BR-DE-27)");
+
+const noBuyerMail = createSampleDraft();
+noBuyerMail.buyer.email = "";
+assert(
+  getExportBlockers(noBuyerMail).some((b) => b.field === "buyer.email"),
+  "buyer e-mail required (BT-49)",
+);
 
 console.log("invoices.test.ts ok");

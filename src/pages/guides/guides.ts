@@ -38,7 +38,7 @@ export const guides: Guide[] = [
         id: "was-du-brauchst",
         heading: "Was du brauchst",
         body: [
-          "Für eine E-Rechnung nach EN 16931 brauchst du mindestens: Rechnungsnummer und -datum, Leistungsdatum, Käuferreferenz, Absender mit Anschrift und USt-IdNr. oder Steuernummer sowie E-Mail, Empfängeranschrift, mindestens eine Position mit Menge, Einheit, Preis und Steuerfall sowie IBAN und Fälligkeit oder Zahlungsbedingungen.",
+          "Für eine E-Rechnung nach EN 16931 brauchst du mindestens: Rechnungsnummer und -datum, Leistungsdatum, Käuferreferenz, Absender mit Anschrift, USt-IdNr. oder Steuernummer, E-Mail, Ansprechpartner und Telefon, Empfängeranschrift, mindestens eine Position mit Menge, Einheit, Preis und Steuerfall sowie IBAN und Fälligkeit oder Zahlungsbedingungen.",
           "Bei Rechnungen an Behörden gehört die Leitweg-ID in die Käuferreferenz. Bei anderen Empfängern reicht eine klare Referenz, etwa eine Bestell- oder Projektnummer.",
           "Optional sind Logo und Markenfarbe. Sie erscheinen in der Vorschau und im sichtbaren PDF, ändern aber nichts am strukturierten XML.",
         ],
@@ -113,7 +113,7 @@ export const guides: Guide[] = [
         heading: "Was ist XRechnung?",
         body: [
           "XRechnung beschreibt, wie Rechnungsdaten in Deutschland strukturiert übermittelt werden. Technisch liegt EN 16931 zugrunde. Typisch ist ein reines XML ohne sichtbare PDF.",
-          "Version 3.0.2 ist die derzeit übliche Zielversion. Zusätzliche deutsche Regeln betreffen unter anderem Käuferreferenz und Verkäufer-E-Mail.",
+          "Version 3.0.2 ist die derzeit übliche Zielversion. Zusätzliche deutsche Regeln betreffen unter anderem Käuferreferenz sowie Ansprechpartner, Telefon und E-Mail des Verkäufers.",
         ],
       },
       {
@@ -301,7 +301,7 @@ export const guides: Guide[] = [
         id: "direkt",
         heading: "Was direkt geprüft wird",
         body: [
-          "Geprüft werden unter anderem IBAN, BIC, USt-IdNr., E-Mail, PLZ, Datum, Menge, Geldbeträge und eine Leitweg-ID, wenn das Feld wie eine aussieht.",
+          "Geprüft werden unter anderem IBAN, BIC, USt-IdNr., E-Mail, Telefon, PLZ, Datum, Menge, Geldbeträge und eine Leitweg-ID, wenn das Feld wie eine aussieht.",
           "Pflichtfelder müssen vor dem Export stehen. Offene Punkte werden markiert und der Download bleibt gesperrt.",
         ],
       },
@@ -553,7 +553,7 @@ export const guides: Guide[] = [
         id: "minimum",
         heading: "Minimum vor dem Export",
         body: [
-          "Rechnungsnummer und -datum, Leistungsdatum, Käuferreferenz, Absender mit Steuerangabe und E-Mail, Empfängeranschrift, Positionen mit Menge, Einheit, Preis und Steuer sowie IBAN und Fälligkeit oder Zahlungsbedingungen.",
+          "Rechnungsnummer und -datum, Leistungsdatum, Käuferreferenz, Absender mit Steuerangabe, E-Mail, Ansprechpartner und Telefon, Empfängeranschrift, Positionen mit Menge, Einheit, Preis und Steuer sowie IBAN und Fälligkeit oder Zahlungsbedingungen.",
           "Fehlt etwas davon, bleibt der Download gesperrt und die offenen Felder werden markiert.",
         ],
       },
