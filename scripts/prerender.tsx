@@ -110,4 +110,36 @@ ${sitemapRoutes
 `;
 await writeFile(join(distDir, "sitemap.xml"), sitemap);
 
-console.log(`Prerendered ${seoRoutes.length} pages + 404.html and sitemap.xml.`);
+const linkLine = (route: { path: string; title: string; description: string }) =>
+  `- [${route.title}](${absoluteUrl(route.path)}): ${route.description}`;
+const routesUnder = (prefix: string) =>
+  sitemapRoutes.filter((route) => route.path.startsWith(`${prefix}/`));
+
+const llms = `# ${SITE_NAME}
+
+> Kostenloses Browser-Werkzeug, um E-Rechnungen als XRechnung 3.0 (CII-XML) und ZUGFeRD-PDF nach EN 16931 zu erstellen, zu öffnen und zu prüfen. Rechnungsdaten bleiben im Browser, es gibt kein Konto und keinen Upload.
+
+Gedacht für Selbstständige, Gründer und kleine Unternehmen in Deutschland, die schnell eine gültige E-Rechnung brauchen. Seit 2025 müssen Unternehmen E-Rechnungen empfangen können, ab 2027 bzw. 2028 auch ausstellen.
+
+## Werkzeug
+
+${linkLine(sitemapRoutes.find((r) => r.path === "/erstellen")!)}
+${linkLine(sitemapRoutes.find((r) => r.path === "/oeffnen")!)}
+${linkLine(sitemapRoutes.find((r) => r.path === "/ki-assistenten")!)}
+
+## Ratgeber
+
+${routesUnder("/ratgeber").map(linkLine).join("\n")}
+
+## Prüfregeln (Validierungsfehler erklärt)
+
+${routesUnder("/pruefregeln").map(linkLine).join("\n")}
+
+## Optional
+
+- [Datenschutz](${absoluteUrl("/datenschutz")}): Was bei der Nutzung anfällt und was nicht.
+- [Impressum](${absoluteUrl("/impressum")})
+`;
+await writeFile(join(distDir, "llms.txt"), llms);
+
+console.log(`Prerendered ${seoRoutes.length} pages + 404.html, sitemap.xml and llms.txt.`);
