@@ -5,15 +5,12 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { GlobalWindow } from "happy-dom";
 import { z } from "zod";
-import { generateInvoiceFiles } from "../../src/lib/generate.ts";
-import { formatMoney } from "../../src/lib/money.ts";
 import { parseCiiXml, parseInvoiceFile } from "../../src/lib/parse.ts";
 import { computeTotals } from "../../src/lib/totals.ts";
-import { getRule, rulePath, rules } from "../../src/pages/rules/rules.ts";
 import { absoluteUrl } from "../../src/seo/site.ts";
 import { checkDraft, formatIssues } from "./checks.ts";
+import { invoiceSummary, prepareInvoice, registerExplainRule, SITE, TAX_HINT, text, VERSION } from "./core.ts";
 import {
-  buildDraft,
   DEFAULT_OUTPUT_DIR,
   invoiceSchema,
   loadProfile,
@@ -24,13 +21,6 @@ import {
 
 // parse.ts reads CII with the browser DOMParser.
 globalThis.DOMParser ??= new GlobalWindow().DOMParser as unknown as typeof DOMParser;
-
-const VERSION = "0.1.1";
-const SITE = absoluteUrl("/");
-
-function text(value: string, isError = false) {
-  return { content: [{ type: "text" as const, text: value }], isError };
-}
 
 async function readInvoice(path: string) {
   const full = resolve(path);
@@ -50,8 +40,7 @@ const server = new McpServer(
       "Alles läuft lokal, Rechnungsdaten verlassen den Rechner nicht.",
       "Vor der ersten Rechnung get_seller_profile aufrufen. Fehlt ein Profil, die Absenderdaten erfragen und mit save_seller_profile speichern.",
       "Danach reicht für create_invoice: Kunde, Positionen und Käuferreferenz.",
-      "Frag nach dem Steuerfall, wenn er unklar ist (19 %, 7 %, Kleinunternehmer § 19 UStG, Reverse Charge § 13b UStG, steuerfrei).",
-      "Bei Behörden ist die Käuferreferenz die Leitweg-ID.",
+      TAX_HINT,
     ].join(" "),
   },
 );
@@ -62,7 +51,7 @@ server.registerTool(
     title: "Absenderprofil lesen",
     description:
       "Liest die gespeicherten Absenderdaten (eigene Firma, Anschrift, Steuer, IBAN) und die letzte Rechnungsnummer. Gibt einen Hinweis zurück, wenn noch nichts gespeichert ist.",
-    annotations: { readOnlyHint: true, openWorldHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async () => {
     const profile = await loadProfile();
@@ -101,7 +90,7 @@ server.registerTool(
     description:
       "Erstellt eine E-Rechnung: XRechnung 3.0 (CII-XML) und ZUGFeRD-PDF mit eingebettetem XML. Prüft vorher alle Pflichtangaben und liefert bei Lücken eine Liste mit Erklärlinks. Ohne seller wird das gespeicherte Absenderprofil genutzt, ohne invoiceNumber die nächste Nummer.",
     inputSchema: invoiceSchema,
-    annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
   },
   async (input) => {
     const profile = await loadProfile();
@@ -113,19 +102,9 @@ server.registerTool(
       );
     }
 
-    const draft = buildDraft(input, seller);
-    const issues = checkDraft(draft);
-    const errors = issues.filter((issue) => issue.severity === "error");
-    if (errors.length > 0) {
-      return text(`Die Rechnung ist noch nicht vollständig:\n${formatIssues(issues)}`, true);
-    }
-
-    let files;
-    try {
-      files = await generateInvoiceFiles(draft);
-    } catch (error) {
-      return text(`Erzeugen fehlgeschlagen:\n${(error as Error).message}`, true);
-    }
+    const prepared = await prepareInvoice(input, seller);
+    if (!prepared.ok) return text(prepared.message, true);
+    const { draft, issues, files } = prepared;
 
     const dir = resolve(input.outputDir ?? DEFAULT_OUTPUT_DIR);
     await mkdir(dir, { recursive: true });
@@ -138,18 +117,16 @@ server.registerTool(
       await saveProfile({ ...profile, lastInvoiceNumber: draft.invoiceNumber });
     }
 
-    const totals = computeTotals(draft);
-    const warnings = issues.length > 0 ? `\n\nHinweise:\n${formatIssues(issues)}` : "";
+    const [headline, ...rest] = invoiceSummary(draft, issues).split("\n\nHinweise:");
     return text(
       [
-        `Rechnung ${draft.invoiceNumber} an ${draft.buyer.name} erstellt.`,
-        `Netto ${formatMoney(totals.net)}, USt ${formatMoney(totals.vat)}, Brutto ${formatMoney(totals.gross)}. Fällig am ${draft.dueDate}.`,
+        headline,
         "",
         `ZUGFeRD-PDF (für Kunden mit PDF-Wunsch): ${pdfPath}`,
         `XRechnung-XML (für Behördenportale und Buchhaltungssoftware): ${xmlPath}`,
         "",
         `Ansehen oder anpassen: ${absoluteUrl("/oeffnen")} (Datei dort lokal öffnen)`,
-      ].join("\n") + warnings,
+      ].join("\n") + (rest.length ? `\n\nHinweise:${rest.join("")}` : ""),
     );
   },
 );
@@ -161,7 +138,7 @@ server.registerTool(
     description:
       "Liest eine XRechnung (CII-XML) oder ZUGFeRD-/Factur-X-PDF von der Festplatte und gibt Absender, Empfänger, Positionen und Summen als JSON zurück.",
     inputSchema: { path: z.string().describe("Pfad zur .xml- oder .pdf-Datei") },
-    annotations: { readOnlyHint: true, openWorldHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ path }) => {
     try {
@@ -193,7 +170,7 @@ server.registerTool(
     description:
       "Prüft eine vorhandene E-Rechnung (XML oder ZUGFeRD-PDF) auf Pflichtangaben, Rechenfehler und EN-16931-Regeln. Ersetzt nicht den offiziellen KoSIT-Validator, findet aber die häufigsten Ablehnungsgründe.",
     inputSchema: { path: z.string().describe("Pfad zur .xml- oder .pdf-Datei") },
-    annotations: { readOnlyHint: true, openWorldHint: false },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ path }) => {
     try {
@@ -212,31 +189,6 @@ server.registerTool(
   },
 );
 
-server.registerTool(
-  "explain_rule",
-  {
-    title: "Prüfregel erklären",
-    description:
-      "Erklärt eine Validierungsregel der E-Rechnung (z. B. BR-DE-15, BR-CO-10) in einfachem Deutsch: Bedeutung, Ursache, Lösung und Link.",
-    inputSchema: { id: z.string().describe("Regel-ID, z. B. BR-DE-15") },
-    annotations: { readOnlyHint: true, openWorldHint: false },
-  },
-  async ({ id }) => {
-    const rule = getRule(id);
-    if (!rule) {
-      const known = rules.map((item) => item.id).join(", ");
-      return text(`Zu ${id} gibt es noch keine Erklärung. Bekannt sind: ${known}`, true);
-    }
-    return text(
-      [
-        `${rule.id}: ${rule.title} (${rule.source}, ${rule.severity}, ${rule.terms.join(", ")})`,
-        `Bedeutung: ${rule.meaning}`,
-        `Typische Ursache: ${rule.cause}`,
-        `Lösung: ${rule.fix}`,
-        `Mehr: ${absoluteUrl(rulePath(rule.id))}`,
-      ].join("\n"),
-    );
-  },
-);
+registerExplainRule(server);
 
 await server.connect(new StdioServerTransport());
