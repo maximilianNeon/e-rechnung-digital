@@ -4,12 +4,12 @@
   "title": "E-RechnungDigital",
   "description": "XRechnung und ZUGFeRD lokal erstellen, lesen und prüfen. Fehlercodes wie BR-DE-15 erklärt.",
   "websiteUrl": "https://www.erechnungdigital.com/ki-assistenten",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "erechnung-digital-mcp",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "transport": {
         "type": "stdio"
       },
