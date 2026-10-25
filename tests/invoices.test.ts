@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { PDFDict, PDFDocument, PDFName, PDFRawStream, PDFStream } from "pdf-lib";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GlobalWindow } from "happy-dom";
@@ -237,6 +238,20 @@ assert(
   generated.xml.includes(`schemeID="EM">${sample.buyer.email}`),
   "xml must carry the buyer electronic address (BT-49)",
 );
+// PDF/A-3 essentials (checked once with Mustang/veraPDF): embedded fonts,
+// sRGB output intent, fx: extension schema, file ID.
+const pdfDoc = await PDFDocument.load(generated.pdf);
+const objects = pdfDoc.context.enumerateIndirectObjects().map(([, obj]) => obj);
+const dicts = objects.map((obj) => (obj instanceof PDFDict ? obj : obj instanceof PDFStream ? obj.dict : null));
+assert(dicts.some((d) => d?.has(PDFName.of("FontFile2"))), "fonts must be embedded (PDF/A 6.2.11.4.1)");
+assert(
+  !dicts.some((d) => d?.get(PDFName.of("BaseFont"))?.toString().includes("Helvetica")),
+  "no unembedded standard fonts",
+);
+assert(pdfDoc.catalog.has(PDFName.of("OutputIntents")), "sRGB output intent (PDF/A 6.2.4.3)");
+const xmpStream = pdfDoc.catalog.lookup(PDFName.of("Metadata"), PDFRawStream);
+assert(new TextDecoder().decode(xmpStream.contents).includes("pdfaExtension:schemas"), "XMP extension schema (PDF/A 6.6.2.3.1)");
+assert(pdfDoc.context.trailerInfo.ID !== undefined, "trailer ID (PDF/A 6.1.3)");
 const fromXml = parseCiiXml(generated.xml);
 const fromPdf = await parseInvoiceFile(
   new File([generated.pdf], `${generated.fileBase}.pdf`, { type: "application/pdf" }),
