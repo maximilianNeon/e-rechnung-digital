@@ -238,3 +238,16 @@
     grid-template-columns: 1fr;
   }
 }
+
+.code {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #f7f9f7;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 20px;
+  white-space: pre;
+}

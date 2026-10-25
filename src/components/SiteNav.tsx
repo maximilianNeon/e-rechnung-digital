@@ -49,6 +49,9 @@ export function SiteNav() {
           <NavLink to="/ratgeber" onClick={close}>
             Ratgeber
           </NavLink>
+          <NavLink to="/pruefregeln" onClick={close}>
+            Prüfregeln
+          </NavLink>
         </nav>
       ) : null}
     </header>

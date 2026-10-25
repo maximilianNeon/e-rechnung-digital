@@ -1,5 +1,12 @@
 import { guidePath, guides } from "../pages/guides/guides";
 import { pflicht2027Faq } from "../pages/guides/pflicht2027Data";
+import {
+  ruleDescription,
+  ruleHeadline,
+  rulePath,
+  rules,
+  RULES_UPDATED,
+} from "../pages/rules/rules";
 import { DEFAULT_LASTMOD } from "./site";
 import {
   articleJsonLd,
@@ -57,6 +64,39 @@ const guideRoutes: SeoRoute[] = guides
       jsonLd,
     };
   });
+
+const ruleRoutes: SeoRoute[] = rules.map((rule) => {
+  const path = rulePath(rule.id);
+  const headline = ruleHeadline(rule);
+  return {
+    path,
+    title: `${headline} – Prüfregel erklärt`,
+    description: ruleDescription(rule),
+    type: "article" as const,
+    lastmod: RULES_UPDATED,
+    inSitemap: true,
+    indexable: true,
+    prerender: true,
+    jsonLd: [
+      articleJsonLd({
+        headline,
+        description: ruleDescription(rule),
+        path,
+        datePublished: RULES_UPDATED,
+        dateModified: RULES_UPDATED,
+      }),
+      breadcrumbJsonLd([
+        { name: "Start", path: "/" },
+        { name: "Prüfregeln", path: "/pruefregeln" },
+        { name: rule.id, path },
+      ]),
+      faqPageJsonLd([
+        { question: `Was bedeutet ${rule.id}?`, answer: rule.meaning },
+        { question: `Wie behebe ich ${rule.id}?`, answer: rule.fix },
+      ]),
+    ],
+  };
+});
 
 export const seoRoutes: SeoRoute[] = [
   {
@@ -148,6 +188,47 @@ export const seoRoutes: SeoRoute[] = [
     ],
   },
   ...guideRoutes,
+  {
+    path: "/ki-assistenten",
+    title: "E-Rechnung mit KI erstellen: MCP-Server für Claude, ChatGPT und Cursor",
+    description:
+      "E-Rechnung direkt im KI-Chat erstellen, lesen und prüfen. MCP-Server für Claude, ChatGPT, Cursor und VS Code – lokal, ohne Upload.",
+    type: "article",
+    lastmod: RULES_UPDATED,
+    inSitemap: true,
+    indexable: true,
+    prerender: true,
+    jsonLd: [
+      articleJsonLd({
+        headline: "E-Rechnung im KI-Chat erstellen",
+        description:
+          "MCP-Server von E-RechnungDigital für Claude, ChatGPT, Cursor und VS Code einrichten.",
+        path: "/ki-assistenten",
+        datePublished: RULES_UPDATED,
+        dateModified: RULES_UPDATED,
+      }),
+      breadcrumbJsonLd([
+        { name: "Start", path: "/" },
+        { name: "KI-Assistenten", path: "/ki-assistenten" },
+      ]),
+    ],
+  },
+  {
+    path: "/pruefregeln",
+    title: "Prüfregeln der E-Rechnung: BR-DE und BR-CO erklärt",
+    description:
+      "Validierungsfehler der XRechnung und EN 16931 verständlich erklärt: BR-DE-15, BR-CO-10 und weitere Prüfregeln mit Ursache und Lösung.",
+    type: "website",
+    lastmod: RULES_UPDATED,
+    inSitemap: true,
+    indexable: true,
+    prerender: true,
+    jsonLd: breadcrumbJsonLd([
+      { name: "Start", path: "/" },
+      { name: "Prüfregeln", path: "/pruefregeln" },
+    ]),
+  },
+  ...ruleRoutes,
   {
     path: "/impressum",
     title: "Impressum",

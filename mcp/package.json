@@ -1,0 +1,48 @@
+{
+  "name": "erechnung-digital-mcp",
+  "version": "0.1.0",
+  "description": "MCP-Server für E-Rechnungen: XRechnung-taugliches CII-XML und ZUGFeRD-PDF in Claude, ChatGPT, Cursor & Co. erstellen, lesen und prüfen – lokal, ohne Upload.",
+  "type": "module",
+  "license": "MIT",
+  "author": "NEON Software Solutions GmbH",
+  "homepage": "https://www.erechnungdigital.com/ki-assistenten",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "e-rechnung",
+    "xrechnung",
+    "zugferd",
+    "factur-x",
+    "en16931",
+    "invoice",
+    "rechnung"
+  ],
+  "bin": {
+    "erechnung-digital-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "skill",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "mcpName": "com.erechnungdigital/mcp",
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "node dist/index.js",
+    "test": "node build.mjs && node test/smoke.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "happy-dom": "^21.0.4",
+    "pdf-lib": "^1.17.1",
+    "zod": "^4.6.7",
+    "zugferd-ts": "^0.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
