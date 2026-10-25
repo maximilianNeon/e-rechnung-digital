@@ -51,7 +51,7 @@ server.registerTool(
     title: "Absenderprofil lesen",
     description:
       "Liest die gespeicherten Absenderdaten (eigene Firma, Anschrift, Steuer, IBAN) und die letzte Rechnungsnummer. Gibt einen Hinweis zurück, wenn noch nichts gespeichert ist.",
-    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    annotations: { title: "Absenderprofil lesen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async () => {
     const profile = await loadProfile();
@@ -70,7 +70,7 @@ server.registerTool(
     title: "Absenderprofil speichern",
     description: `Speichert die eigenen Firmendaten lokal (${PROFILE_FILE}), damit künftige Rechnungen nur noch Kunde und Positionen brauchen.`,
     inputSchema: sellerSchema.shape,
-    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    annotations: { title: "Absenderprofil speichern", readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async (input) => {
     const previous = await loadProfile();
@@ -90,7 +90,7 @@ server.registerTool(
     description:
       "Erstellt eine E-Rechnung: XRechnung 3.0 (CII-XML) und ZUGFeRD-PDF mit eingebettetem XML. Prüft vorher alle Pflichtangaben und liefert bei Lücken eine Liste mit Erklärlinks. Ohne seller wird das gespeicherte Absenderprofil genutzt, ohne invoiceNumber die nächste Nummer.",
     inputSchema: invoiceSchema,
-    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+    annotations: { title: "E-Rechnung erstellen", readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
   },
   async (input) => {
     const profile = await loadProfile();
@@ -138,7 +138,7 @@ server.registerTool(
     description:
       "Liest eine XRechnung (CII-XML) oder ZUGFeRD-/Factur-X-PDF von der Festplatte und gibt Absender, Empfänger, Positionen und Summen als JSON zurück.",
     inputSchema: { path: z.string().describe("Pfad zur .xml- oder .pdf-Datei") },
-    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    annotations: { title: "E-Rechnung lesen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ path }) => {
     try {
@@ -170,7 +170,7 @@ server.registerTool(
     description:
       "Prüft eine vorhandene E-Rechnung (XML oder ZUGFeRD-PDF) auf Pflichtangaben, Rechenfehler und EN-16931-Regeln. Ersetzt nicht den offiziellen KoSIT-Validator, findet aber die häufigsten Ablehnungsgründe.",
     inputSchema: { path: z.string().describe("Pfad zur .xml- oder .pdf-Datei") },
-    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+    annotations: { title: "E-Rechnung prüfen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   },
   async ({ path }) => {
     try {

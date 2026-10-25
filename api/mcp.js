@@ -4269,7 +4269,7 @@ function registerExplainRule(server) {
       title: "Pr\xFCfregel erkl\xE4ren",
       description: "Erkl\xE4rt eine Validierungsregel der E-Rechnung (z. B. BR-DE-15, BR-CO-10) in einfachem Deutsch: Bedeutung, Ursache, L\xF6sung und Link.",
       inputSchema: { id: z2.string().describe("Regel-ID, z. B. BR-DE-15") },
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+      annotations: { title: "Pr\xFCfregel erkl\xE4ren", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
     },
     async ({ id }) => {
       const rule = getRule(id);
@@ -4314,7 +4314,7 @@ function createServer() {
         invoiceNumber: z3.string().describe("Rechnungsnummer, fortlaufend und einmalig"),
         seller: sellerSchema.describe("Eigene Firmendaten (Absender)")
       },
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+      annotations: { title: "E-Rechnung erstellen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
     },
     async (input) => {
       const prepared = await prepareInvoice(input, input.seller);
@@ -4350,7 +4350,7 @@ function createServer() {
       title: "E-Rechnung pr\xFCfen",
       description: "Pr\xFCft den XML-Inhalt einer XRechnung oder ZUGFeRD-Rechnung (CII) auf Pflichtangaben, Rechenfehler und EN-16931-Regeln. Ersetzt nicht den offiziellen KoSIT-Validator. Der Inhalt wird nicht gespeichert.",
       inputSchema: { xml: z3.string().describe("Vollst\xE4ndiger XML-Inhalt der Rechnung") },
-      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
+      annotations: { title: "E-Rechnung pr\xFCfen", readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false }
     },
     async ({ xml }) => {
       try {
